@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>BANK</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row" style="margin-top: 50px  ">
+            <div class="col-6" style="background-color: aqua; padding: 40px;">
+                <!-- <h5>enter bank name</h5> -->
+                <input type="text  " id="txtifcs" placeholder="enter ifcs ">
+                <a name="" id="btnifsc" onclick="getdetail()" class="btn btn-primary" role="button">submit</a>
+                <div>
+
+
+
+                    <div class="card" style="width: 25rem;">
+
+                        <div class="card-body" style=" margin-bottom:50px;">
+                            <h5 class="card-title" id="data">NO data please enter ifcs code</h5>
+                            <div id="ifsc"> </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="col-6" style="background-color:aquamarine;">
+                <h5>enter detial</h5>
+                <input type="text  " placeholder="enter bank " id='bank'>
+                <input type="text" placeholder="city" id='city'>
+                <a name="" id="" onclick="getdetail2()" class="btn btn-primary" role="button">submit</a>
+                <div class="card-body" style=" margin-bottom:50px;">
+                    <h5 class="card-title" id="branch">NO data </h5>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function add(data) {
+
+
+            a = document.getElementById("ifsc");
+            a.innerHTML = "";
+            var para = document.createElement("P"); // Create a <p> node
+            var t = document.createTextNode("branch:" + data.branch); // Create a text node
+            para.appendChild(t); // Append the text to <p>
+            a.appendChild(para);
+
+            var para = document.createElement("P"); // Create a <p> node
+            var t = document.createTextNode("address:" + data.address); // Create a text node
+            para.appendChild(t); // Append the text to <p>
+            a.appendChild(para);
+
+            var para = document.createElement("P"); // Create a <p> node
+            var t = document.createTextNode("city:" + data.city); // Create a text node
+            para.appendChild(t); // Append the text to <p>
+            a.appendChild(para);
+
+
+            var para = document.createElement("P"); // Create a <p> node
+            var t = document.createTextNode("district:" + data.district); // Create a text node
+            para.appendChild(t); // Append the text to <p>
+            a.appendChild(para);
+
+            var para = document.createElement("P"); // Create a <p> node
+            var t = document.createTextNode("state:" + data.state); // Create a text node
+            para.appendChild(t); // Append the text to <p>
+            a.appendChild(para);
+            document.getElementById('data').innerHTML = data.ifsc;
+        }
+
+
+        url = 'http://127.0.0.1:8000/api/'
+
+        function get(url) {
+
+            fetch(url)
+                .then(response => {
+                    return response.json();
+                })
+                .then(d => {
+                    // a.innerHTML = d;
+                    // console.log(d.ifsc);
+                    add(d);
+
+                });
+        }
+
+        function getdetail(e) {
+
+            v = document.getElementById("txtifcs").value;
+            // console.log(v);
+            get(url + 'branch/' + v);
+
+        }
+
+        function getdetail2() {
+            bank = document.getElementById('bank').value;
+            city = document.getElementById("city").value;
+
+
+            fetch(url + 'branch/' + '?' + 'bank=' + bank + '&' + 'city=' + city)
+                .then(response => {
+                    return response.json();
+                })
+                .then(d => {
+                    // a.innerHTML = d;
+                    // console.log('hiii');
+                    document.getElementById('branch').innerHTML = ' not ready';
+                    // add(d);
+
+                });
+        }
+    </script>
+</body>
+
+</html>
